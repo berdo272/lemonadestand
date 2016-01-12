@@ -7,14 +7,16 @@ function getUserInput(Message){
 
 function getWeather(){
     var temperature;
-    temperature = Math.floor((Math.random() * 100) + 50);
+    temperature = Math.floor((Math.random() * 50) + 50);
     return temperature;
 }
+
 function calcLikelyhoodOfMakingSale(temperatureModifier,priceModifier){
     var customerBuyThreshold;
     customerBuyThreshold = 10;
     customerBuyThreshold = (customerBuyThreshold * temperatureModifier * priceModifier);
 }
+
 function calcTemperatureModifier(temperature){
 	if (temperature > 90){
 		return .25;
@@ -28,6 +30,7 @@ function calcTemperatureModifier(temperature){
 		return 1.25;
 	}
 }
+
 function calcPriceModifier(price){
 	if (price < 20){
 		return .2;
@@ -63,17 +66,64 @@ function populateCustomerArray(numberOfCustomers){
     return customerArray;
 }
 
+function chooseRecipe(){
+	var playerChoice;
+	var lowerCaseInput
+	playerChoice = getUserInput("Please choose a recipe 'Tart' 'Standard' or 'sweet' ");
+	lowerCaseInput = playerChoice.toLowerCase()
+	if (lowerCaseInput === tart) {
+		return 1;
+	} else if (lowerCaseInput === standard) {
+		return 2;
+	} else if (lowerCaseInput === sweet) {
+		return 3;
+	} else {
+		alert("Please enter only 'Tart' 'Standard' or 'Sweet' ");
+		chooseRecipe();
+	}
+}
+
+function choosePrice() {
+	var playerChoice;
+	var roundedOutput;
+	var numberCheck;
+	playerChoice = getUserInput("Please enter a price in cents for your lemonade. (min 0 , max 500)");
+	numberCheck = isNaN(playerChoice);
+
+	if (numberCheck = true) {
+		alert("User input is not a number");
+		choosePrice();
+	} else if (playerChoice < 0 || playerChoice > 500){
+		alert("User input is outside of min-max range");
+		choosePrice();
+	} else {
+		roundedOutput = math.floor(playerChoice)
+		return roundedOutput
+	}
+}
+
+function purchaseInventory(inventory,playerMoney){
+
+}
+
 function Main(){
     var customerArray = [];
-    var inventory = [0,0,0,0];
+    var inventory 
     var numberOfCustomers;
     var playerMoney;
+    var price
+    var recipe
+    var temperature
 
+    inventory = {Lemons:0 , Sugar:0 , Cups:0 , Ice:0}
     numberOfCustomers = 100;
-
+    playerMoney = 2000
 
     customerArray = populateCustomerArray(numberOfCustomers);
+
+
     console.log (customerArray[0]);
+    alert("You currently have " + inventory.Lemons + " lemons, " + inventory.Sugar + " cups of sugar, " + inventory.Cups + " paper cups, " + inventory.Ice + " ice cubes.");
 }
 
 
