@@ -11,50 +11,59 @@ function getWeather(){
     return temperature;
 }
 
-function calcLikelyhoodOfMakingSale(temperatureModifier,priceModifier){
+function calcLikelyhoodOfMakingSale(temperature,price,config){
     var customerBuyThreshold;
-    customerBuyThreshold = 10;
-    customerBuyThreshold = (customerBuyThreshold * temperatureModifier * priceModifier);
+    customerBuyThreshold = (config.defualtCustomerBuyThreshold * temperature.modifier * price.modifier);
+    return customerBuyThreshold
+
 }
 
 function calcTemperatureModifier(temperature){
-    if (temperature > 90){
-        return 0.25;
-    } else if (temperature > 80){
-        return 0.5;
-    } else if (temperature > 70){
-        return 0.75;
-    } else if (temperature > 60){
-        return 1;
+    var randomTemperature
+    randomTemperature = getWeather
+    if (randomTemperature > 90){
+        temperature.rangeValue = 5;
+        temperature.modifier = 0.25;
+    } else if (randomTemperature > 80){
+        temperature.rangeValue = 4;
+        temperature.modifier = 0.50;
+    } else if (randomTemperature > 70){
+        temperature.rangeValue = 3;
+        temperature.modifier = 0.75;
+    } else if (randomTemperature > 60){
+        temperature.rangeValue = 2;
+        temperature.modifier = 1.25;
     } else {
-        return 1.25;
+        temperature.rangeValue = 1;
+        temperature.modifier = 1.5;
     }
+    return temperature
 }
 
 function calcPriceModifier(price){
-    if (price < 20){
-        return 0.2;
-    } else if (price < 30){
-        return 0.25;
-    } else if (price < 50){
-        return 0.5;
-    } else if (price < 75){
-        return 0.75;
-    } else if (price < 100){
-        return 1;
-    } else if (price < 200){
-        return 1.25;
-    } else if (price < 300){
-        return 1.75;
+    if (price.actualValue < 20){
+        price.modifier = 0.2;
+    } else if (price.actualValue < 30){
+        price.modifier = 0.25;
+    } else if (price.actualValue < 50){
+        price.modifier = 0.5;
+    } else if (price.actualValue < 75){
+        price.modifier = 0.75;
+    } else if (price.actualValue < 100){
+        price.modifier = 1;
+    } else if (price.actualValue < 200){
+        price.modifier = 1.25;
+    } else if (price.actualValue < 300){
+        price.modifier = 1.75;
     } else {
-        return 2.5;
+        price.modifier = 2.5;
     }
+    return price
 }
 
 function customer(){
     this.lemonadePreference = Math.floor((Math.random() * 3) + 1);
     this.weatherPreference = Math.floor((Math.random() * 5) + 1);
-    this.buyThreshhold = 10;
 }
 
 function populateCustomerArray(numberOfCustomers){
@@ -69,13 +78,13 @@ function populateCustomerArray(numberOfCustomers){
 function chooseRecipe(){
     var playerChoice;
     var lowerCaseInput;
-    playerChoice = getuserInput("Please choose a recipe 'Tart' 'Standard' or 'sweet' ");
+    playerChoice = getUserInput("Please choose a recipe 'Tart' 'Standard' or 'sweet' ");
     lowerCaseInput = playerChoice.toLowerCase();
-    if (lowerCaseInput === tart) {
+    if (lowerCaseInput === "tart") {
         return 1;
-    } else if (lowerCaseInput === standard) {
+    } else if (lowerCaseInput === "standard") {
         return 2;
-    } else if (lowerCaseInput === sweet) {
+    } else if (lowerCaseInput === "sweet") {
         return 3;
     } else {
         alert("Please enter only 'Tart' 'Standard' or 'Sweet' ");
@@ -83,12 +92,15 @@ function chooseRecipe(){
     }
 }
 
-function choosePrice() {
+function choosePrice(price) {
     var playerChoice;
-    var output;
-    playerChoice = getuserInput("Please enter a price in cents for your lemonade. (min 0 , max 500)");
-    output = validNumberCheck(playerChoice,0,500);
-    return output;
+    var actualPrice;
+    playerChoice = getUserInput("Please enter a price in cents for your lemonade. (min 0 , max 500)");
+    actualPrice = validNumberCheck(playerChoice,0,500);
+    
+    price.actualValue = actualPrice;
+
+    return price;
 }
 
 function displayInventory(inventory){
@@ -175,19 +187,19 @@ function getPurchaseString(i,config){
     var userInput;
     if (i === 0) {
         alert("The base price of lemons is " + config.lemonBasePrice + " cents. there is a 20% discount if you buy more than " + config.lemonWholesaleThreshold1 + " and a 40% discount if you buy more than " + config.lemonWholesaleThreshold2 + ".");
-        userInput = getUserInput("Please enter ammount of lemons to buy. (Minimum " + config.minBuyAmmount + " , Maximum " + config.maxBuyAmmount + ".)");
+        userInput = getUserInput("Please enter amount of lemons to buy. (Minimum " + config.minBuyAmmount + " , Maximum " + config.maxBuyAmmount + ".)");
         return userInput;
     } else if (i === 1){
         alert("The base price of sugar is " + config.sugarBasePrice + " cents. there is a 20% discount if you buy more than " + config.sugarWholesaleThreshold1 + " and a 40% discount if you buy more than " + config.sugarWholesaleThreshold2 + ".");
-        userInput = getUserInput("Please enter ammount of sugar to buy. (Minimum " + config.minBuyAmmount + " , Maximum " + config.maxBuyAmmount + ".)");
+        userInput = getUserInput("Please enter amount of sugar to buy. (Minimum " + config.minBuyAmmount + " , Maximum " + config.maxBuyAmmount + ".)");
         return userInput;
     } else if (i === 2){
         alert("The base price of cups is " + config.cupBasePrice + " cents. there is a 20% discount if you buy more than " + config.cupWholesaleThreshold1 + " and a 40% discount if you buy more than " + config.cupWholesaleThreshold2 + ".");
-        userInput = getUserInput("Please enter ammount of cups to buy. (Minimum " + config.minBuyAmmount + " , Maximum " + config.maxBuyAmmount + ".)");
+        userInput = getUserInput("Please enter amount of cups to buy. (Minimum " + config.minBuyAmmount + " , Maximum " + config.maxBuyAmmount + ".)");
         return userInput;
     }else {
         alert("The base price of ice is " + config.iceBasePrice + " cents. there is a 20% discount if you buy more than " + config.iceWholesaleThreshold1 + " and a 40% discount if you buy more than " + config.iceWholesaleThreshold2 + ".");
-        userInput = getUserInput("Please enter ammount of ice to buy. (Minimum " + config.minBuyAmmount + " , Maximum " + config.maxBuyAmmount + ".)");
+        userInput = getUserInput("Please enter amount of ice to buy. (Minimum " + config.minBuyAmmount + " , Maximum " + config.maxBuyAmmount + ".)");
         return userInput;
     }
 }
@@ -229,6 +241,45 @@ function purchaseGoods(inventory,config){
     }
     return inventory
 }
+function makeLemonade(recipe,config,inventory){
+	if (recipe === 1){
+		if (inventory.lemons >= config.lemonsPerPitcherTart && invetory.sugar >= config.sugarPerPitcherTart && inventory.cups >= config.cupsPerPitcher && inventory.ice >= config.icePerPitcherTart){
+			inventory.cupsOfLemonade = 12
+			inventory.lemons -= config.lemonsPerPitcherTart
+			inventory.sugar -= config.sugarPerPitcherTart
+			inventory.cups -= config.cupsPerPitcher
+			inventory.ice -= config.icePerPitcherTart
+			return inventory
+		} else {
+			alert("You have run out of supplies to make tart lemonade.")
+			return false
+		}
+	} else	if (recipe === 2){
+		if (inventory.lemons >= config.lemonsPerPitcherStandard && invetory.sugar >= config.sugarPerPitcherStandard && inventory.cups >= config.cupsPerPitcher && inventory.ice >= config.icePerPitcherStandard){
+			inventory.cupsOfLemonade = 12
+			inventory.lemons -= config.lemonsPerPitcherStandard
+			inventory.sugar -= config.sugarPerPitcherStandard
+			inventory.cups -= config.cupsPerPitcher
+			inventory.ice -= config.icePerPitcherStandard
+			return inventory
+		} else {
+			alert("You have run out of supplies to make standard lemonade.")
+			return false
+		}
+	} else if (recipe === 3){
+		if (inventory.lemons >= config.lemonsPerPitcherSweet && invetory.sugar >= config.sugarPerPitcherSweet && inventory.cups >= config.cupsPerPitcher && inventory.ice >= config.icePerPitcherSweet){
+			inventory.cupsOfLemonade = 12
+			inventory.lemons -= config.lemonsPerPitcherSweet
+			inventory.sugar -= config.sugarPerPitcherSweet
+			inventory.cups -= config.cupsPerPitcher
+			inventory.ice -= config.icePerPitcherSweet
+			return inventory
+		} else {
+			alert("You have run out of supplies to make sweet lemonade.")
+			return false
+		}
+	}
+}
 
 function Main(){
     var customerArray = [];
@@ -237,21 +288,38 @@ function Main(){
     var recipe;
     var temperature;
     var config;
+    var customerBuyThreshold
 
-    inventory = {lemons:0 , sugar:0 , cups:0 , ice:0, money:2000};
+    price = {actualValue: 0, modifier: 0}
+    temperature = {rangeValue: 0, modifier: 0}
+    inventory = {lemons:0 , sugar:0 , cups:0 , ice:0, money:2000, cupsOfLemonade: 0};
     config = {
         lemonBasePrice: 20, lemonWholesaleThreshold1: 15, lemonWholesaleThreshold2: 45, 
-        sugarBasePrice: 10, sugarWholesaleThreshold1: 15, sugarWholesaleThreshold2: 45, 
-        cupBasePrice: 5, cupWholesaleThreshold1: 15, cupWholesaleThreshold2: 45,
-        iceBasePrice: 1, iceWholesaleThreshold1: 15 , iceWholesaleThreshold2: 40, 
+        sugarBasePrice: 10, sugarWholesaleThreshold1: 25, sugarWholesaleThreshold2: 50, 
+        cupBasePrice: 5, cupWholesaleThreshold1: 100, cupWholesaleThreshold2: 250,
+        iceBasePrice: 1, iceWholesaleThreshold1: 100 , iceWholesaleThreshold2: 300, 
+        lemonsPerPitcherSweet: 4, sugarPerPitcherSweet: 7, icePerPitcherSweet: 25,
+        lemonsPerPitcherStandard: 5, sugarPerPitcherStandard: 5, icePerPitcherStandard: 25,
+        lemonsPerPitcherTart: 7, sugarPerPitcherTart: 4, icePerPitcherTart: 25,
         numberOfCustomers: 100,
+        defualtCustomerBuyThreshold: 10,
+        cupsPerPitcher: 12,
         minBuyAmmount: 0, maxBuyAmmount: 500};
     
     customerArray = populateCustomerArray(config.numberOfCustomers);
 
     console.log (customerArray[0]);
     inventory = purchaseGoods(inventory,config);
-    displayInventory(inventory)
+    displayInventory(inventory);
+    recipe = chooseRecipe();
+    price = choosePrice(price);
+    price = calcPriceModifier(price);
+    temperature = calcTemperatureModifier(temperature);
+    customerBuyThreshold = calcLikelyhoodOfMakingSale(temperature,price,config);
+
+    console.log(price);
+    console.log(recipe);
+    console.log(temperature);
 }
 
 
