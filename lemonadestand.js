@@ -5,39 +5,35 @@ function getUserInput(Message){
     return userData;
 }
 
-function getWeather(){
-    var temperature;
-    temperature = Math.floor((Math.random() * 50) + 50);
+function getWeather(temperature){
+    temperature.actualValue = Math.floor((Math.random() * 50) + 50);
     return temperature;
 }
 
 function calcLikelyhoodOfMakingSale(temperature,price,config){
     var customerBuyThreshold;
     customerBuyThreshold = (config.defualtCustomerBuyThreshold * temperature.modifier * price.modifier);
-    return customerBuyThreshold
-
+    return customerBuyThreshold;
 }
 
 function calcTemperatureModifier(temperature){
-    var randomTemperature
-    randomTemperature = getWeather
-    if (randomTemperature > 90){
+    if (temperature.actualValue > 90){
         temperature.rangeValue = 5;
         temperature.modifier = 0.25;
-    } else if (randomTemperature > 80){
+    } else if (temperature.actualValue > 80){
         temperature.rangeValue = 4;
         temperature.modifier = 0.50;
-    } else if (randomTemperature > 70){
+    } else if (temperature.actualValue > 70){
         temperature.rangeValue = 3;
         temperature.modifier = 0.75;
-    } else if (randomTemperature > 60){
+    } else if (temperature.actualValue > 60){
         temperature.rangeValue = 2;
         temperature.modifier = 1.25;
     } else {
         temperature.rangeValue = 1;
         temperature.modifier = 1.5;
     }
-    return temperature
+    return temperature;
 }
 
 function calcPriceModifier(price){
@@ -58,7 +54,7 @@ function calcPriceModifier(price){
     } else {
         price.modifier = 2.5;
     }
-    return price
+    return price;
 }
 
 function customer(){
@@ -98,7 +94,7 @@ function choosePrice(price) {
     playerChoice = getUserInput("Please enter a price in cents for your lemonade. (min 0 , max 500)");
     actualPrice = validNumberCheck(playerChoice,0,500);
     
-    price.actualValue = actualPrice;
+    price.actualValue = Number(actualPrice);
 
     return price;
 }
@@ -115,9 +111,9 @@ function displayInventory(inventory){
 
 function validNumberCheck(Input,Min,Max){
     var numberCheck;
-    var number
-    var roundedOutput
-    number = Number(Input)
+    var number;
+    var roundedOutput;
+    number = Number(Input);
 
     numberCheck = isNaN(number);
     if (numberCheck === true) {
@@ -174,7 +170,7 @@ function checkIfEnoughMoney(inventory,goodPrice,purchaseAmmount){
     if (totalCost <= inventory.money) {
         return true;
     } else {
-        alert("Cost of desired purchase is more than you currently have. Please specify a new new buy ammount.")
+        alert("Cost of desired purchase is more than you currently have. Please specify a new new buy ammount.");
         return false;
     }
 }
@@ -224,7 +220,7 @@ function purchaseGoods(inventory,config){
     var goodPrice;
     var moneyCheck;
     var finalPrice;
-    var i
+    var i;
 
 
     for (i = 0; i < goodsListArray.length; i++){
@@ -243,44 +239,72 @@ function purchaseGoods(inventory,config){
 }
 function makeLemonade(recipe,config,inventory){
 	if (recipe === 1){
-		if (inventory.lemons >= config.lemonsPerPitcherTart && invetory.sugar >= config.sugarPerPitcherTart && inventory.cups >= config.cupsPerPitcher && inventory.ice >= config.icePerPitcherTart){
-			inventory.cupsOfLemonade = 12
-			inventory.lemons -= config.lemonsPerPitcherTart
-			inventory.sugar -= config.sugarPerPitcherTart
-			inventory.cups -= config.cupsPerPitcher
-			inventory.ice -= config.icePerPitcherTart
+		if (inventory.lemons >= config.lemonsPerPitcherTart && inventory.sugar >= config.sugarPerPitcherTart && inventory.cups >= config.cupsPerPitcher && inventory.ice >= config.icePerPitcherTart){
+			inventory.cupsOfLemonade = config.cupsPerPitcher;
+			inventory.lemons -= config.lemonsPerPitcherTart;
+			inventory.sugar -= config.sugarPerPitcherTart;
+			inventory.cups -= config.cupsPerPitcher;
+			inventory.ice -= config.icePerPitcherTart;
 			return inventory
 		} else {
 			alert("You have run out of supplies to make tart lemonade.")
-			return false
+            inventory.playerHasSupplies = false;
+			return inventory;
 		}
 	} else	if (recipe === 2){
-		if (inventory.lemons >= config.lemonsPerPitcherStandard && invetory.sugar >= config.sugarPerPitcherStandard && inventory.cups >= config.cupsPerPitcher && inventory.ice >= config.icePerPitcherStandard){
-			inventory.cupsOfLemonade = 12
-			inventory.lemons -= config.lemonsPerPitcherStandard
-			inventory.sugar -= config.sugarPerPitcherStandard
-			inventory.cups -= config.cupsPerPitcher
-			inventory.ice -= config.icePerPitcherStandard
-			return inventory
+		if (inventory.lemons >= config.lemonsPerPitcherStandard && inventory.sugar >= config.sugarPerPitcherStandard && inventory.cups >= config.cupsPerPitcher && inventory.ice >= config.icePerPitcherStandard){
+			inventory.cupsOfLemonade = config.cupsPerPitcher;
+			inventory.lemons -= config.lemonsPerPitcherStandard;
+			inventory.sugar -= config.sugarPerPitcherStandard;
+			inventory.cups -= config.cupsPerPitcher;
+			inventory.ice -= config.icePerPitcherStandard;
+			return inventory;
 		} else {
-			alert("You have run out of supplies to make standard lemonade.")
-			return false
+			alert("You have run out of supplies to make standard lemonade.");
+            inventory.playerHasSupplies = false;
+			return inventory;
 		}
 	} else if (recipe === 3){
-		if (inventory.lemons >= config.lemonsPerPitcherSweet && invetory.sugar >= config.sugarPerPitcherSweet && inventory.cups >= config.cupsPerPitcher && inventory.ice >= config.icePerPitcherSweet){
-			inventory.cupsOfLemonade = 12
-			inventory.lemons -= config.lemonsPerPitcherSweet
-			inventory.sugar -= config.sugarPerPitcherSweet
-			inventory.cups -= config.cupsPerPitcher
-			inventory.ice -= config.icePerPitcherSweet
-			return inventory
+		if (inventory.lemons >= config.lemonsPerPitcherSweet && inventory.sugar >= config.sugarPerPitcherSweet && inventory.cups >= config.cupsPerPitcher && inventory.ice >= config.icePerPitcherSweet){
+			inventory.cupsOfLemonade = config.cupsPerPitcher;
+			inventory.lemons -= config.lemonsPerPitcherSweet;
+			inventory.sugar -= config.sugarPerPitcherSweet;
+			inventory.cups -= config.cupsPerPitcher;
+			inventory.ice -= config.icePerPitcherSweet;
+			return inventory;
 		} else {
-			alert("You have run out of supplies to make sweet lemonade.")
-			return false
+			alert("You have run out of supplies to make sweet lemonade.");
+			inventory.playerHasSupplies = false;
+            return inventory;
 		}
 	}
 }
-
+function runDayOfSales(inventory,config,price,recipe,customerBuyThreshold){
+    inventory.playerHasSupplies = true;
+    var randomBuyCheckInteger;
+    var numberOfCupsSold;
+    numberOfCupsSold = 0;
+    for (var i = 0; i <= config.numberOfCustomers && inventory.playerHasSupplies === true; i++){
+        if (inventory.cupsOfLemonade > 0){
+            randomBuyCheckInteger = Math.floor((Math.random() * 19) + 1);
+            if (customerBuyThreshold <= randomBuyCheckInteger) {
+                inventory.money += price.actualValue;
+                inventory.cupsOfLemonade--;
+                numberOfCupsSold++;
+            }
+        } else {
+            inventory = makeLemonade(recipe,config,inventory);
+        }
+    } 
+    alert("Today you managed to sell " + numberOfCupsSold + " cups of lemonade.");
+    alert("Your remaining ice has melted. And any unsold cups of lemonade have been discarded.");
+    inventory.cupsOfLemonade = 0;
+    inventory.ice = 0;
+    return inventory;
+}       
+function alertStartOfDay(temperature,i){
+    alert("It is day number " + i + ", and the temperature today is " + temperature.actualValue + " degrees.");
+}
 function Main(){
     var customerArray = [];
     var inventory;
@@ -288,11 +312,11 @@ function Main(){
     var recipe;
     var temperature;
     var config;
-    var customerBuyThreshold
+    var customerBuyThreshold;
 
-    price = {actualValue: 0, modifier: 0}
-    temperature = {rangeValue: 0, modifier: 0}
-    inventory = {lemons:0 , sugar:0 , cups:0 , ice:0, money:2000, cupsOfLemonade: 0};
+    price = {actualValue: 0, modifier: 0};
+    temperature = {actualValue: 0, rangeValue: 0, modifier: 0};
+    inventory = {lemons:0 , sugar:0 , cups:0 , ice:0, money:2000, cupsOfLemonade: 0, playerHasSupplies: true};
     config = {
         lemonBasePrice: 20, lemonWholesaleThreshold1: 15, lemonWholesaleThreshold2: 45, 
         sugarBasePrice: 10, sugarWholesaleThreshold1: 25, sugarWholesaleThreshold2: 50, 
@@ -304,22 +328,22 @@ function Main(){
         numberOfCustomers: 100,
         defualtCustomerBuyThreshold: 10,
         cupsPerPitcher: 12,
+        numberOfDays: 30,
         minBuyAmmount: 0, maxBuyAmmount: 500};
     
     customerArray = populateCustomerArray(config.numberOfCustomers);
-
-    console.log (customerArray[0]);
+    for (var i = 1; i <= config.numberOfDays; i++){
+    temperature = getWeather(temperature);
     inventory = purchaseGoods(inventory,config);
     displayInventory(inventory);
+    temperature = calcTemperatureModifier(temperature);
+    alertStartOfDay(temperature,i);
     recipe = chooseRecipe();
     price = choosePrice(price);
     price = calcPriceModifier(price);
-    temperature = calcTemperatureModifier(temperature);
     customerBuyThreshold = calcLikelyhoodOfMakingSale(temperature,price,config);
-
-    console.log(price);
-    console.log(recipe);
-    console.log(temperature);
+    inventory = runDayOfSales(inventory,config,price,recipe,customerBuyThreshold);
+    }
 }
 
 
