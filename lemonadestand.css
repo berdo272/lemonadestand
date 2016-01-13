@@ -10,6 +10,7 @@
 .left {text-align: left;}
 .container {margin: 0 auto}
 .background {background-color:  #0b1250 ; background:url("lemonadestand.jpg");background-position:"fixed";background-size: "Contain"}
+.background2 {background-color:  #0b1250 ; background:url("lemonadestand2.jpg");background-position:"fixed";background-size: "Contain"}
 
 #table{
     text-align: center;

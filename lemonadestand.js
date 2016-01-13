@@ -1,4 +1,8 @@
 "use strict";
+function changebackground(){
+
+    $("body").toggleClass("background2");
+}
 function getUserInput(Message){
     var userData;
     userData = window.prompt(Message);
@@ -170,7 +174,7 @@ function checkIfEnoughMoney(inventory,goodPrice,purchaseAmmount){
     if (totalCost <= inventory.money) {
         return true;
     } else {
-        alert("Cost of desired purchase is more than you currently have. Please specify a new new buy ammount.");
+        alert("Cost of desired purchase is more than you currently have. Please specify a new buy ammount.");
         return false;
     }
 }
