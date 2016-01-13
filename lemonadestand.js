@@ -305,7 +305,27 @@ function runDayOfSales(inventory,config,price,recipe,customerBuyThreshold){
 function alertStartOfDay(temperature,i){
     alert("It is day number " + i + ", and the temperature today is " + temperature.actualValue + " degrees.");
 }
-function Main(){
+function setDifficulty(config){
+    var difficulty
+    var lowerCaseInput
+    difficulty = getUserInput("Please enter desired difficulty 'Easy' 'Medium' or 'Hard'. ")
+    lowerCaseInput = difficulty.toLowerCase();
+    if (lowerCaseInput === "easy") {
+        config.numberOfCustomers = 150
+        config.customerBuyThreshold = 7
+    } else if (lowerCaseInput === "medium") {
+        config.numberOfCustomers = 100
+        config.customerBuyThreshold = 10
+    } else if (lowerCaseInput === "hard") {
+        config.numberOfCustomers = 60
+        config.customerBuyThreshold = 13
+    } else {
+        alert("Please enter only 'Tart' 'Standard' or 'Sweet' ");
+        setDifficulty(config);
+    }
+    return config
+}
+function main(){
     var customerArray = [];
     var inventory;
     var price;
@@ -332,6 +352,7 @@ function Main(){
         minBuyAmmount: 0, maxBuyAmmount: 500};
     
     customerArray = populateCustomerArray(config.numberOfCustomers);
+    setDifficulty(config);
     for (var i = 1; i <= config.numberOfDays; i++){
     temperature = getWeather(temperature);
     inventory = purchaseGoods(inventory,config);
@@ -347,4 +368,3 @@ function Main(){
 }
 
 
-Main();

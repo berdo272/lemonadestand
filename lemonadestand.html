@@ -1,11 +1,75 @@
-<!DOCTYPE HTML>
+</DOCTYPE HTML>
 <html lang="en">
 <meta charset="utf8">
 	<head>
-		<title>Lemonade Stand</title>
+		<title>Robert's Lemonade Stand</title>
+		<link rel="stylesheet" type="text/css" href="lemonadestand.css">
+		<h1 id="TitleText"class="center"> Lemonade Stand</h1>
 	</head>
-	<body>
+	<body class="background">
 		<script type="text/javascript" src="lemonadestand.js">
+		 
 		</script>
+		<table style="width:50%" border="1" id="table" align="center">
+<tr>
+    <th>Recipe</th>
+    <th>Lemons</th>
+    <th>Sugar</th>
+    <th>Ice</th>
+    <th>Cups Made/Used </th>  
+<tr>
+    <td>Tart</td>
+    <td>7</td>		
+    <td>4</td>
+    <td>25</td>
+    <td>12</td>
+  </tr>
+  <tr>
+    <td>Standard</td>
+    <td>5</td>		
+    <td>5</td>
+    <td>25</td>
+    <td>12</td>
+  </tr>
+  <tr>
+    <td>Sweet</td>
+    <td>4</td>		
+    <td>7</td>
+    <td>25</td>
+    <td>12</td>
+  </tr>
+</table>
+<br>
+<p class="bodyparagraph">
+	The game will start by having you purchase your first inventory of supplies.<br>
+	Use the table above to plan your purchases to ensure you do not run out of supplies during the day!<br>
+	You will then be shown the forcasted weather for the current day. People are more willing to buy lemonade on hotter days!<br>
+	Next you will be prompted to choose which type of lemonade you would like to make, and set your price.<br>
+	Keep in mind that your ice will melt at the end of each day, and any unsold cups from the day will be tossed aswell.<br>
+	Try to make as much money as you can! Remember to keep prices resonable and pay attention to your weather!
+</p>
+<br>
+<table style="width:30%" border="1" id="table" align="center">
+	<tr>
+	<th>Setting</th>
+	<th>Easy</th>
+    <th>Medium</th>
+    <th>Hard</th>
+    <tr>
+    <td>Daily Customer Count</td>
+    <td>150</td>		
+    <td>100</td>
+    <td>60</td>
+    <tr>
+    <td>Sales Likelyhood</td>
+    <td>High</td>		
+    <td>Average</td>
+    <td>Low</td>
+    <tr>
+
+
+
+			<center><button type="button" onclick="main()">Start Game</button></center>
+			<br>
 	</body>
 </html>

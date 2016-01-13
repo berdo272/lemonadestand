@@ -1,0 +1,25 @@
+
+#awesomeText { font-family: 'Times New Roman', Georgia Serif;}
+#TitleText {font-size: 56; color:  #000000 }
+.boxed {border: 1px black;}
+.navtext {color: #000000; font-size: 28; text-align: center}
+.bodyparagraph {color: #000000; font-size: 20; text-align: center; background-color: #b0b0b0; }
+.soft {color: #a8a8a8;}
+.center {text-align: center;}
+.right {text-align: right;}
+.left {text-align: left;}
+.container {margin: 0 auto}
+.background {background-color:  #0b1250 ; background:url("lemonadestand.jpg");background-position:"fixed";background-size: "Contain"}
+
+#table{
+    text-align: center;
+    background-color: #e8ea19;
+    tr{
+    text-align: center;
+    background-color: #e8ea19;
+    td{
+    text-align: center;
+    background-color: #e8ea19;
+} 
+}
+}
