@@ -289,7 +289,7 @@ function runDayOfSales(inventory,config,price,recipe,customerBuyThreshold){
     var numberOfCupsSold;
     var customerCounter
     numberOfCupsSold = 0;
-    for (customerCounter = 0; i <= config.numberOfCustomers && inventory.playerHasSupplies === true; i++){
+    for (customerCounter = 0; customerCounter <= config.numberOfCustomers && inventory.playerHasSupplies === true; customerCounter++){
         if (inventory.cupsOfLemonade > 0){
             randomBuyCheckInteger = Math.floor((Math.random() * 19) + 1);
             if (customerBuyThreshold <= randomBuyCheckInteger) {
@@ -338,7 +338,7 @@ function main(){
     var temperature;
     var config;
     var customerBuyThreshold;
-    var dayCounter
+    var dayCounter;
 
     price = {actualValue: 0, modifier: 0};
     temperature = {actualValue: 0, rangeValue: 0, modifier: 0};
