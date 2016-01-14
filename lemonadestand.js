@@ -133,21 +133,21 @@ function validNumberCheck(Input,Min,Max){
         return roundedOutput;
     }
 }
-function getGoodPrice(i,config,specifiedBuyAmmount){
+function getGoodPrice(goodIndexValue,config,specifiedBuyAmmount){
     var goodPrice;
     var goodBasePrice;
     var internalThreshold1;
     var internalThreshold2;
 
-    if (i === 0){
+    if (goodIndexValue === 0){
         internalThreshold1 = config.lemonWholesaleThreshold1;
         internalThreshold2 = config.lemonWholesaleThreshold2;
         goodBasePrice = config.lemonBasePrice;
-    } else if (i === 1){
+    } else if (goodIndexValue === 1){
         internalThreshold1 = config.sugarWholesaleThreshold1;
         internalThreshold2 = config.sugarWholesaleThreshold2;
         goodBasePrice = config.sugarBasePrice;
-    } else if (i === 2){
+    } else if (goodIndexValue === 2){
         internalThreshold1 = config.cupWholesaleThreshold1;
         internalThreshold2 = config.cupWholesaleThreshold2;
         goodBasePrice = config.cupBasePrice;
@@ -183,17 +183,17 @@ function getFinalPrice(goodPrice,buyAmmount){
     finalPrice = goodPrice * buyAmmount;
     return finalPrice;
 }
-function getPurchaseString(i,config){
+function getPurchaseString(goodIndexValue,config){
     var userInput;
-    if (i === 0) {
+    if (goodIndexValue === 0) {
         alert("The base price of lemons is " + config.lemonBasePrice + " cents. there is a 20% discount if you buy more than " + config.lemonWholesaleThreshold1 + " and a 40% discount if you buy more than " + config.lemonWholesaleThreshold2 + ".");
         userInput = getUserInput("Please enter amount of lemons to buy. (Minimum " + config.minBuyAmmount + " , Maximum " + config.maxBuyAmmount + ".)");
         return userInput;
-    } else if (i === 1){
+    } else if (goodIndexValue === 1){
         alert("The base price of sugar is " + config.sugarBasePrice + " cents. there is a 20% discount if you buy more than " + config.sugarWholesaleThreshold1 + " and a 40% discount if you buy more than " + config.sugarWholesaleThreshold2 + ".");
         userInput = getUserInput("Please enter amount of sugar to buy. (Minimum " + config.minBuyAmmount + " , Maximum " + config.maxBuyAmmount + ".)");
         return userInput;
-    } else if (i === 2){
+    } else if (goodIndexValue === 2){
         alert("The base price of cups is " + config.cupBasePrice + " cents. there is a 20% discount if you buy more than " + config.cupWholesaleThreshold1 + " and a 40% discount if you buy more than " + config.cupWholesaleThreshold2 + ".");
         userInput = getUserInput("Please enter amount of cups to buy. (Minimum " + config.minBuyAmmount + " , Maximum " + config.maxBuyAmmount + ".)");
         return userInput;
@@ -203,15 +203,15 @@ function getPurchaseString(i,config){
         return userInput;
     }
 }
-function updateInventory(i,inventory,buyAmmount,finalPrice){
+function updateInventory(goodIndexValue,inventory,buyAmmount,finalPrice){
         
         inventory.money -= finalPrice;
 
-        if (i === 0){
+        if (goodIndexValue === 0){
             inventory.lemons += buyAmmount;
-        } else if (i === 1){
+        } else if (goodIndexValue === 1){
             inventory.sugar += buyAmmount;
-        } else if (i === 2){
+        } else if (goodIndexValue === 2){
             inventory.cups += buyAmmount;
         } else {
             inventory.ice += buyAmmount;
@@ -224,20 +224,20 @@ function purchaseGoods(inventory,config){
     var goodPrice;
     var moneyCheck;
     var finalPrice;
-    var i;
+    var goodIndexValue;
 
 
-    for (i = 0; i < goodsListArray.length; i++){
+    for (goodIndexValue = 0; goodIndexValue < goodsListArray.length; goodIndexValue++){
         moneyCheck = false;
         displayInventory(inventory);
         while (moneyCheck === false){
-        userInput = getPurchaseString(i,config)
+        userInput = getPurchaseString(goodIndexValue,config)
         userInput = validNumberCheck(userInput,config.minBuyAmmount,config.maxBuyAmmount);
-        goodPrice = getGoodPrice(i,config,userInput);
+        goodPrice = getGoodPrice(goodIndexValue,config,userInput);
         moneyCheck = checkIfEnoughMoney(inventory,goodPrice,userInput);
         }
         finalPrice = getFinalPrice(userInput,goodPrice);
-        inventory = updateInventory(i,inventory,userInput,finalPrice);
+        inventory = updateInventory(goodIndexValue,inventory,userInput,finalPrice);
     }
     return inventory
 }
@@ -287,8 +287,9 @@ function runDayOfSales(inventory,config,price,recipe,customerBuyThreshold){
     inventory.playerHasSupplies = true;
     var randomBuyCheckInteger;
     var numberOfCupsSold;
+    var customerCounter
     numberOfCupsSold = 0;
-    for (var i = 0; i <= config.numberOfCustomers && inventory.playerHasSupplies === true; i++){
+    for (customerCounter = 0; i <= config.numberOfCustomers && inventory.playerHasSupplies === true; i++){
         if (inventory.cupsOfLemonade > 0){
             randomBuyCheckInteger = Math.floor((Math.random() * 19) + 1);
             if (customerBuyThreshold <= randomBuyCheckInteger) {
@@ -306,8 +307,8 @@ function runDayOfSales(inventory,config,price,recipe,customerBuyThreshold){
     inventory.ice = 0;
     return inventory;
 }       
-function alertStartOfDay(temperature,i){
-    alert("It is day number " + i + ", and the temperature today is " + temperature.actualValue + " degrees.");
+function alertStartOfDay(temperature,dayCounter){
+    alert("It is day number " + dayCounter + ", and the temperature today is " + temperature.actualValue + " degrees.");
 }
 function setDifficulty(config){
     var difficulty
@@ -324,7 +325,7 @@ function setDifficulty(config){
         config.numberOfCustomers = 60
         config.customerBuyThreshold = 13
     } else {
-        alert("Please enter only 'Tart' 'Standard' or 'Sweet' ");
+        alert("Please enter only 'Easy' 'Medium' or 'Hard' ");
         setDifficulty(config);
     }
     return config
@@ -337,6 +338,7 @@ function main(){
     var temperature;
     var config;
     var customerBuyThreshold;
+    var dayCounter
 
     price = {actualValue: 0, modifier: 0};
     temperature = {actualValue: 0, rangeValue: 0, modifier: 0};
@@ -357,12 +359,12 @@ function main(){
     
     customerArray = populateCustomerArray(config.numberOfCustomers);
     setDifficulty(config);
-    for (var i = 1; i <= config.numberOfDays; i++){
+    for (dayCounter = 1; dayCounter <= config.numberOfDays; dayCounter++){
     temperature = getWeather(temperature);
     inventory = purchaseGoods(inventory,config);
     displayInventory(inventory);
     temperature = calcTemperatureModifier(temperature);
-    alertStartOfDay(temperature,i);
+    alertStartOfDay(temperature,dayCounter);
     recipe = chooseRecipe();
     price = choosePrice(price);
     price = calcPriceModifier(price);
